@@ -64,6 +64,9 @@ tests = [
 [tool.hatch]
 version.path = "src/items/__init__.py"
 
+[tool.uv]
+exclude-newer = "P3D"  # "3 days" in RFC 3339 format
+
 [tool.ruff]
 line-length = 79
 src = [ "src", "tests" ]
