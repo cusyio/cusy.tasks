@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
     - uses: actions/setup-python@v6
-    - uses: actions/cache@v5
+    - uses: actions/cache@v5.0.4
       with:
         path: ~/.cache/pre-commit
         key: pre-commit|${{ env.pythonLocation }}|${{ hashFiles('.pre-commit-config.yaml') }}
@@ -55,7 +55,7 @@ jobs:
           - "3.14t"
     steps:
       - name: Download pre-built packages
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: Packages
           path: dist
@@ -76,7 +76,7 @@ jobs:
           -e py$(echo ${{ matrix.python-version }})
 
       - name: Upload coverage data
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-data-${{ matrix.python-version }}
           path: .coverage.*
@@ -99,7 +99,7 @@ jobs:
       - uses: hynek/setup-cached-uv@v2
 
       - name: Download coverage data
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           pattern: coverage-data-*
           merge-multiple: true
@@ -118,7 +118,7 @@ jobs:
           coverage report --fail-under=100
 
       - name: Upload HTML report if check failed.
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: html-report
           path: htmlcov
@@ -130,7 +130,7 @@ jobs:
     needs: build-package
     steps:
       - name: Download pre-built packages
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: Packages
           path: dist
