@@ -4,24 +4,24 @@
 
 """Testing the api delete all function with.
 
-* delete_all removes all items from the database
+* delete_all removes all tasks from the database
 * delete_all on an empty database doesn't cause errors
 """
 
 import pytest
 
 
-@pytest.mark.num_items(5)
-def test_delete_all_from_many(items_db):
-    """Test that delete_all removes all items."""
-    assert items_db.count() == 5
-    items_db.delete_all()
-    assert items_db.count() == 0
-    assert items_db.list_items() == []
+@pytest.mark.num_tasks(5)
+def test_delete_all_from_many(tasks_db):
+    """Test that delete_all removes all tasks."""
+    assert tasks_db.count() == 5
+    tasks_db.delete_all()
+    assert tasks_db.count() == 0
+    assert tasks_db.list_tasks() == []
 
 
-def test_delete_all_from_empty(items_db):
+def test_delete_all_from_empty(tasks_db):
     """Test that delete_all on an empty database works."""
-    assert items_db.count() == 0
-    items_db.delete_all()
-    assert items_db.count() == 0
+    assert tasks_db.count() == 0
+    tasks_db.delete_all()
+    assert tasks_db.count() == 0

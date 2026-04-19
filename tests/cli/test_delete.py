@@ -4,11 +4,11 @@
 
 """Test the cli delete function."""
 
-import items
+from cusy import tasks
 
 
-def test_delete(items_db, items_cli):
-    """After an item has been added and deleted, ``count`` should be ``0``."""
-    i = items_db.add_item(items.Item("Update pytest section"))
-    items_cli(f"delete {i}")
-    assert items_db.count() == 0
+def test_delete(tasks_db, tasks_cli):
+    """After a task has been added and deleted, ``count`` should be ``0``."""
+    i = tasks_db.add_task(tasks.Item("Update pytest section"))
+    tasks_cli(f"delete {i}")
+    assert tasks_db.count() == 0

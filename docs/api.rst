@@ -5,20 +5,20 @@
 API reference
 =============
 
-.. automodule:: items.api
+.. automodule:: cusy.tasks.api
 
-:class:`items.api.Item` class
------------------------------
+:class:`cusy.tasks.api.Item` class
+----------------------------------
 
 .. autoclass:: Item
    :members: from_dict, to_dict
 
-:class:`items.api.ItemsDB` class
---------------------------------
+:class:`cusy.tasks.api.ItemsDB` class
+-------------------------------------
 
 .. autoclass:: ItemsDB
-   :members: add_item, get_item, list_items, count, update_item, start, finish,
-       delete_item, delete_all, close, path
+   :members: add_task, get_task, list_tasks, count, update_task, start, finish,
+       delete_task, delete_all, close, path
 
 Exceptions
 ----------

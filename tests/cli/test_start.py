@@ -4,12 +4,12 @@
 
 """Test the cli start function."""
 
-import items
+from cusy import tasks
 
 
-def test_start(items_db, items_cli):
-    """When start is called for an item, the state should be in progress."""
-    i = items_db.add_item(items.Item("Update pytest section"))
-    items_cli(f"start {i}")
-    after = items_db.get_item(i)
+def test_start(tasks_db, tasks_cli):
+    """When start is called for a task, the state should be in progress."""
+    i = tasks_db.add_task(tasks.Item("Update pytest section"))
+    tasks_cli(f"start {i}")
+    after = tasks_db.get_task(i)
     assert after.state == "in progress"

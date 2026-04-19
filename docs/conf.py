@@ -14,7 +14,7 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html#project-informatio
 import os
 import re
 
-import items
+import cusy.tasks
 
 
 # Set canonical URL from the Read the Docs Domain
@@ -25,7 +25,7 @@ html_context = {}
 if os.environ.get("READTHEDOCS", "") == "True":
     html_context["READTHEDOCS"] = True
 
-project = "items"
+project = "cusy.tasks"
 author = "Veit Schiele"
 copyright = f"2019–2026, {author}"
 

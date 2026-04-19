@@ -6,13 +6,13 @@
 
 import pytest
 
-from items import Item
+from cusy.tasks import Item
 
 
 @pytest.fixture
-def edge_case_db(items_db):
-    """Create a database with items having empty strings and special cases."""
-    items = (
+def edge_case_db(tasks_db):
+    """Create a database with tasks having empty strings and special cases."""
+    tasks = (
         Item(summary="Regular task", owner="user", state="todo"),
         Item(summary="Empty owner task", owner="", state="todo"),
         Item(summary="None owner", owner=None, state="todo"),
@@ -21,8 +21,8 @@ def edge_case_db(items_db):
         Item(summary="Long summary! " * 100, owner="user", state="todo"),
         Item(summary="Special chars: -!@#", owner="user-!@#", state="todo"),
     )
-    ids = [items_db.add_item(item) for item in items]
-    return items_db, ids, items
+    ids = [tasks_db.add_task(task) for task in tasks]
+    return tasks_db, ids, tasks
 
 
 @pytest.mark.parametrize(
@@ -30,12 +30,12 @@ def edge_case_db(items_db):
     [
         ("user", "todo", 2),  # Regular, long summary, special chars
         ("", "todo", 2),  # Empty owner
-        (None, "todo", 5),  # All todo items (includes None owner)
+        (None, "todo", 5),  # All todo tasks (includes None owner)
         ("user", "in progress", 1),
         ("user", "done", 1),
         ("non-existent", "todo", 0),
         ("user-!@#", "todo", 1),  # Special chars in owner
-        (None, None, 7),  # All items
+        (None, None, 7),  # All tasks
     ],
 )
 def test_list_filter_edge_cases(
@@ -46,5 +46,5 @@ def test_list_filter_edge_cases(
 ):
     """Test list filtering with various edge cases."""
     db, _, _ = edge_case_db
-    result = db.list_items(owner=owner_filter, state=state_filter)
+    result = db.list_tasks(owner=owner_filter, state=state_filter)
     assert len(result) == expected_count

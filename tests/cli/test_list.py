@@ -8,7 +8,7 @@
 * Test the cli list function with owner and state filters.
 """
 
-import items
+from cusy import tasks
 
 
 expected_output = """\
@@ -20,33 +20,33 @@ expected_output = """\
 """
 
 
-def test_list(items_db, items_cli):
-    """When two items are added, ``list`` should be the ``expected_output``."""
-    items_db.add_item(items.Item("Update pytest section"))
-    items_db.add_item(items.Item("Update cibuildwheel section"))
-    output = items_cli("list")
+def test_list(tasks_db, tasks_cli):
+    """When two tasks are added, ``list`` should be the ``expected_output``."""
+    tasks_db.add_task(tasks.Item("Update pytest section"))
+    tasks_db.add_task(tasks.Item("Update cibuildwheel section"))
+    output = tasks_cli("list")
     assert output.strip() == expected_output.strip()
 
 
-def test_main(items_db, items_cli):
+def test_main(tasks_db, tasks_cli):
     """Items without options on the command line should return the table.
 
-    More precisely, even if items is called without options on the command
+    More precisely, even if tasks is called without options on the command
     line, the corresponding table should be returned.
     """
-    items_db.add_item(items.Item("Update pytest section"))
-    items_db.add_item(items.Item("Update cibuildwheel section"))
-    output = items_cli("")
+    tasks_db.add_task(tasks.Item("Update pytest section"))
+    tasks_db.add_task(tasks.Item("Update cibuildwheel section"))
+    output = tasks_cli("")
     assert output.strip() == expected_output.strip()
 
 
-def test_list_filter_by_owner(items_db, items_cli):
+def test_list_filter_by_owner(tasks_db, tasks_cli):
     """Test filtering the list by owner."""
-    items_db.add_item(items.Item("Task for Alice", owner="alice"))
-    items_db.add_item(items.Item("Task for Bob", owner="bob"))
-    items_db.add_item(items.Item("Another task for Alice", owner="alice"))
+    tasks_db.add_task(tasks.Item("Task for Alice", owner="alice"))
+    tasks_db.add_task(tasks.Item("Task for Bob", owner="bob"))
+    tasks_db.add_task(tasks.Item("Another task for Alice", owner="alice"))
 
-    output = items_cli("list -o alice")
+    output = tasks_cli("list -o alice")
 
     # Verify only Alice's tasks are shown
     assert "Task for Alice" in output
@@ -54,16 +54,16 @@ def test_list_filter_by_owner(items_db, items_cli):
     assert "Task for Bob" not in output
 
 
-def test_list_filter_by_state(items_db, items_cli):
+def test_list_filter_by_state(tasks_db, tasks_cli):
     """Test filtering the list by state."""
-    items_db.add_item(items.Item("Todo task", state="todo"))
-    in_progress_id = items_db.add_item(items.Item("In progress task"))
-    done_id = items_db.add_item(items.Item("Done task"))
+    tasks_db.add_task(tasks.Item("Todo task", state="todo"))
+    in_progress_id = tasks_db.add_task(tasks.Item("In progress task"))
+    done_id = tasks_db.add_task(tasks.Item("Done task"))
 
-    items_db.start(in_progress_id)
-    items_db.finish(done_id)
+    tasks_db.start(in_progress_id)
+    tasks_db.finish(done_id)
 
-    output = items_cli("list -s 'in progress'")
+    output = tasks_cli("list -s 'in progress'")
 
     # Verify only "in progress" tasks are shown
     assert "In progress task" in output
@@ -71,17 +71,17 @@ def test_list_filter_by_state(items_db, items_cli):
     assert "Done task" not in output
 
 
-def test_list_filter_by_owner_and_state(items_db, items_cli):
+def test_list_filter_by_owner_and_state(tasks_db, tasks_cli):
     """Test filtering the list by both owner and state."""
-    items_db.add_item(items.Item("Alice todo", owner="alice", state="todo"))
-    in_progress_id = items_db.add_item(
-        items.Item("Alice in progress", owner="alice"),
+    tasks_db.add_task(tasks.Item("Alice todo", owner="alice", state="todo"))
+    in_progress_id = tasks_db.add_task(
+        tasks.Item("Alice in progress", owner="alice"),
     )
-    items_db.add_item(items.Item("Bob todo", owner="bob", state="todo"))
+    tasks_db.add_task(tasks.Item("Bob todo", owner="bob", state="todo"))
 
-    items_db.start(in_progress_id)
+    tasks_db.start(in_progress_id)
 
-    output = items_cli("list -o alice -s 'in progress'")
+    output = tasks_cli("list -o alice -s 'in progress'")
 
     # Verify only Alice's "in progress" tasks are shown
     assert "Alice in progress" in output

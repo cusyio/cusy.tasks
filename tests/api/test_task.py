@@ -8,58 +8,58 @@
 * Item equality comparison
 """
 
-from items import Item
+from cusy.tasks import Item
 
 
-def test_item_from_dict():
+def test_task_from_dict():
     """Test Item.from_dict method."""
-    item_dict = {
+    task_dict = {
         "summary": "Test summary",
         "owner": "Test owner",
         "state": "in progress",
         "id": 42,
     }
 
-    item = Item.from_dict(item_dict)
+    task = Item.from_dict(task_dict)
 
-    assert item.summary == "Test summary"
-    assert item.owner == "Test owner"
-    assert item.state == "in progress"
-    assert item.id == 42
+    assert task.summary == "Test summary"
+    assert task.owner == "Test owner"
+    assert task.state == "in progress"
+    assert task.id == 42
 
 
-def test_item_to_dict():
+def test_task_to_dict():
     """Test Item.to_dict method."""
-    item = Item(
+    task = Item(
         summary="Test summary",
         owner="Test owner",
         state="in progress",
         id=42,
     )
 
-    item_dict = item.to_dict()
+    task_dict = task.to_dict()
 
-    assert item_dict["summary"] == "Test summary"
-    assert item_dict["owner"] == "Test owner"
-    assert item_dict["state"] == "in progress"
-    assert item_dict["id"] == 42
+    assert task_dict["summary"] == "Test summary"
+    assert task_dict["owner"] == "Test owner"
+    assert task_dict["state"] == "in progress"
+    assert task_dict["id"] == 42
 
 
-def test_item_equality():
+def test_task_equality():
     """Test Item equality comparison."""
-    item1 = Item(
+    task1 = Item(
         summary="Same summary",
         owner="Same owner",
         state="todo",
         id=1,
     )
-    item2 = Item(
+    task2 = Item(
         summary="Same summary",
         owner="Same owner",
         state="todo",
         id=2,
     )
-    item3 = Item(
+    task3 = Item(
         summary="Different summary",
         owner="Same owner",
         state="todo",
@@ -67,7 +67,7 @@ def test_item_equality():
     )
 
     # Items with same summary, owner, state but different id should be equal
-    assert item1 == item2
+    assert task1 == task2
 
     # Items with different summary should not be equal
-    assert item1 != item3
+    assert task1 != task3
