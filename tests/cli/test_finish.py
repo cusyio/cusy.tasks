@@ -4,16 +4,16 @@
 
 """Test the cli finish function."""
 
-import items
+from cusy import tasks
 
 
-def test_finish(items_db, items_cli):
-    """After finish has been called for an item, the status should be "done".
+def test_finish(tasks_db, tasks_cli):
+    """After finish has been called for a task, the status should be "done".
 
-    After an item has been created and ``finish`` has been called for this
-    item, the status should be "done".
+    After a task has been created and ``finish`` has been called for this task,
+    the status should be "done".
     """
-    i = items_db.add_item(items.Item("Update pytest section"))
-    items_cli(f"finish {i}")
-    after = items_db.get_item(i)
+    i = tasks_db.add_task(tasks.Task("Update pytest section"))
+    tasks_cli(f"finish {i}")
+    after = tasks_db.get_task(i)
     assert after.state == "done"

@@ -6,37 +6,36 @@
 
 import pytest
 
-import items
-
-from items import Item
+from cusy import tasks
+from cusy.tasks import Task
 
 
 @pytest.fixture(scope="session")
 def db_path(tmp_path_factory):
     """Path to a temporary database."""
-    return tmp_path_factory.mktemp("items_db")
+    return tmp_path_factory.mktemp("tasks_db")
 
 
 @pytest.fixture(scope="session")
-def session_items_db(db_path):
+def session_tasks_db(db_path):
     """Establish and close the connection to the database."""
-    db_ = items.ItemsDB(db_path)
+    db_ = tasks.TasksDB(db_path)
     yield db_
     db_.close()
 
 
 @pytest.fixture
-def items_db(session_items_db, request, faker):
+def tasks_db(session_tasks_db, request, faker):
     """Return the database object."""
-    db = session_items_db
+    db = session_tasks_db
     db.delete_all()
-    # support for `@pytest.mark.num_items(<some number>)`
+    # support for `@pytest.mark.num_tasks(<some number>)`
     faker.seed_instance(101)  # random seed
-    m = request.node.get_closest_marker("num_items")
+    m = request.node.get_closest_marker("num_tasks")
     if m and len(m.args) > 0:
-        num_items = m.args[0]
-        for _ in range(num_items):
-            db.add_item(
-                Item(summary=faker.sentence(), owner=faker.first_name()),
+        num_tasks = m.args[0]
+        for _ in range(num_tasks):
+            db.add_task(
+                Task(summary=faker.sentence(), owner=faker.first_name()),
             )
     return db

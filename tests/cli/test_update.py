@@ -4,18 +4,18 @@
 
 """Test the cli update function."""
 
-import items
+from cusy import tasks
 
 
-def test_update(items_db, items_cli):
-    """An item is changed, and when called, the changed values are returned.
+def test_update(tasks_db, tasks_cli):
+    """An task is changed, and when called, the changed values are returned.
 
     More precisely, if the owner and summary are changed with ``update``, this
-    information and the unchanged state should be returned when this item is
+    information and the unchanged state should be returned when this task is
     called.
     """
-    i = items_db.add_item(items.Item("Update pytest section"))
-    items_cli(f"update {i} -o veit -s foo")
-    expected = items.Item("foo", owner="veit", state="todo")
-    actual = items_db.get_item(i)
+    i = tasks_db.add_task(tasks.Task("Update pytest section"))
+    tasks_cli(f"update {i} -o veit -s foo")
+    expected = tasks.Task("foo", owner="veit", state="todo")
+    actual = tasks_db.get_task(i)
     assert actual == expected

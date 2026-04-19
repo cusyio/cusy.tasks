@@ -4,9 +4,9 @@
 
 """Test the cli version function."""
 
-import items
+from cusy import tasks
 
 
-def test_version(items_cli):
+def test_version(tasks_cli):
     """The version cli option should be the same as __version__ in Python."""
-    assert items_cli("version") == items.__version__
+    assert tasks_cli("version") == tasks.__version__

@@ -20,4 +20,4 @@ Whenever compatibility needs to be broken, this will be announced in the changel
 
 ## Reporting a security vulnerability
 
-If you believe you have found a vulnerability, please use [GitHub’s security advisory form](https://github.com/veit/items/security/advisories/new) or email Veit Schiele at veit@cusy.io.
+If you believe you have found a vulnerability, please use [GitHub’s security advisory form](https://github.com/cusyio/cusy.tasks/security/advisories/new) or email Veit Schiele at veit@cusy.io.
