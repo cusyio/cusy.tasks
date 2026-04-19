@@ -4,75 +4,75 @@
 
 """Test Cases.
 
-* `update` the owner of an item
-* `update` the owner of an item to an empty string
-* `update` the summary of a item
-* `update` owner and summary of an item at the same time
-* `update` a non-existent item
+* `update` the owner of a task
+* `update` the owner of a task to an empty string
+* `update` the summary of a task
+* `update` owner and summary of a task at the same time
+* `update` a non-existent task
 """
 
 import pytest
 
-from items import InvalidItemIdError, Item
+from cusy.tasks import InvalidTaskIdError, Task
 
 
-def test_update_owner(items_db):
+def test_update_owner(tasks_db):
     """Summary and state should stay the same, only owner should change."""
-    i = items_db.add_item(Item("Update pytest section", owner="veit"))
-    items_db.update_item(i, Item(owner="vsc", state=None))
+    i = tasks_db.add_task(Task("Update pytest section", owner="veit"))
+    tasks_db.update_task(i, Task(owner="vsc", state=None))
 
-    mod = items_db.get_item(i)
-    assert mod == Item("Update pytest section", owner="vsc")
+    mod = tasks_db.get_task(i)
+    assert mod == Task("Update pytest section", owner="vsc")
 
 
-def test_update_to_empty_owner(items_db):
+def test_update_to_empty_owner(tasks_db):
     """Update an owner to an empty string should work."""
-    i = items_db.add_item(Item(summary="Update pytest section", owner="veit"))
-    items_db.update_item(i, Item(owner=""))
-    mod = items_db.get_item(i)
+    i = tasks_db.add_task(Task(summary="Update pytest section", owner="veit"))
+    tasks_db.update_task(i, Task(owner=""))
+    mod = tasks_db.get_task(i)
     assert mod.owner == ""
     assert mod.summary == "Update pytest section"
 
 
-def test_update_summary(items_db):
+def test_update_summary(tasks_db):
     """Owner and state should stay the same, summary should change."""
-    i = items_db.add_item(
-        Item("Update pytest section", owner="veit", state="done"),
+    i = tasks_db.add_task(
+        Task("Update pytest section", owner="veit", state="done"),
     )
-    items_db.update_item(
+    tasks_db.update_task(
         i,
-        Item(summary="Update cibuildwheel section", state=None),
+        Task(summary="Update cibuildwheel section", state=None),
     )
 
-    mod = items_db.get_item(i)
-    assert mod == Item(
+    mod = tasks_db.get_task(i)
+    assert mod == Task(
         "Update cibuildwheel section",
         owner="veit",
         state="done",
     )
 
 
-def test_update_both(items_db):
+def test_update_both(tasks_db):
     """State should stay the same, owner and summary should change."""
-    i = items_db.add_item(Item("Update pytest section", owner="veit"))
-    items_db.update_item(
+    i = tasks_db.add_task(Task("Update pytest section", owner="veit"))
+    tasks_db.update_task(
         i,
-        Item(summary="Update cibuildwheel section", owner="vsc"),
+        Task(summary="Update cibuildwheel section", owner="vsc"),
     )
 
-    mod = items_db.get_item(i)
-    assert mod == Item(
+    mod = tasks_db.get_task(i)
+    assert mod == Task(
         "Update cibuildwheel section",
         owner="vsc",
         state="todo",
     )
 
 
-def test_update_non_existent(items_db):
-    """Shouldn't be able to update a non-existent item."""
+def test_update_non_existent(tasks_db):
+    """Shouldn't be able to update a non-existent task."""
     i = 123  # any number will do, db is empty
-    with pytest.raises(InvalidItemIdError):
-        items_db.update_item(
+    with pytest.raises(InvalidTaskIdError):
+        tasks_db.update_task(
             i,
-            Item(summary="Update cibuildwheel section", owner="vsc"),
+            Task(summary="Update cibuildwheel section", owner="vsc"),
         )

@@ -4,15 +4,15 @@
 
 """Version for the api and the cli."""
 
-__version__ = "26.1.0"
+__version__ = "26.2.0"
 
-from .api import InvalidItemIdError, Item, ItemsDB
+from .api import InvalidTaskIdError, Task, TasksDB
 from .cli import app
 
 
 __all__ = [
-    "InvalidItemIdError",
-    "Item",
-    "ItemsDB",
+    "InvalidTaskIdError",
+    "Task",
+    "TasksDB",
     "app",
 ]

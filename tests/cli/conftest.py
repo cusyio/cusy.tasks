@@ -10,14 +10,14 @@ import pytest
 
 from typer.testing import CliRunner
 
-import items
+from cusy import tasks
 
 
 runner = CliRunner()
 
 
 @pytest.fixture
-def items_cli_no_redirect():
+def tasks_cli_no_redirect():
     """Fixture for calling the cli app with a list of parameters.
 
     Returns:
@@ -26,9 +26,9 @@ def items_cli_no_redirect():
     """
 
     def run_cli(command_string):
-        """Pass `items.cli.app` and a list of strings to :func:`invoke`.
+        """Pass `tasks.cli.app` and a list of strings to :func:`invoke`.
 
-        More precisely, pass the application `items.cli.app` and a list of
+        More precisely, pass the application `tasks.cli.app` and a list of
         strings to the :func:`invoke` function of the cli test runner.
 
         Returns:
@@ -36,14 +36,14 @@ def items_cli_no_redirect():
 
         """
         command_list = shlex.split(command_string)
-        result = runner.invoke(items.cli.app, command_list)
+        result = runner.invoke(tasks.cli.app, command_list)
         return result.output.rstrip()
 
     return run_cli
 
 
 @pytest.fixture
-def items_cli(items_cli_no_redirect, db_path, monkeypatch, items_db):
+def tasks_cli(tasks_cli_no_redirect, db_path, monkeypatch, tasks_db):
     """Monkeypatch fixture for the ITEMS_DB_DIR environment variable."""
     monkeypatch.setenv("ITEMS_DB_DIR", db_path.as_posix())
-    return items_cli_no_redirect
+    return tasks_cli_no_redirect

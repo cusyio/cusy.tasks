@@ -10,21 +10,21 @@
 
 import pytest
 
-from items import InvalidItemIdError, Item
+from cusy.tasks import InvalidTaskIdError, Task
 
 
 @pytest.mark.parametrize("start_state", ["todo", "in progress", "done"])
-def test_start(items_db, start_state):
+def test_start(tasks_db, start_state):
     """End state should be "in progress"."""
-    i = Item("Update pytest section", state=start_state)
-    ai = items_db.add_item(i)
-    items_db.start(ai)
-    i = items_db.get_item(ai)
+    i = Task("Update pytest section", state=start_state)
+    ai = tasks_db.add_task(i)
+    tasks_db.start(ai)
+    i = tasks_db.get_task(ai)
     assert i.state == "in progress"
 
 
-def test_start_non_existent(items_db):
-    """Shouldn't be able to start a non-existent item."""
+def test_start_non_existent(tasks_db):
+    """Shouldn't be able to start a non-existent task."""
     i = 42  # any number will do, db is empty
-    with pytest.raises(InvalidItemIdError):
-        items_db.start(i)
+    with pytest.raises(InvalidTaskIdError):
+        tasks_db.start(i)

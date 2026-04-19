@@ -21,8 +21,8 @@ import pytest
         "version",
     ],
 )
-def test_help(command, items_cli):
+def test_help(command, tasks_cli):
     """Check that all commands are listed in help."""
     hlp = f"{command} --help"
-    out = items_cli(hlp)
+    out = tasks_cli(hlp)
     assert f"Usage: root {command}" in out

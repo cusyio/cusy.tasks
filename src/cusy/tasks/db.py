@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: BSD-3-Clause
 
-"""DB for the items project."""
+"""DB for the tasks project."""
 
 import tinydb
 
@@ -23,26 +23,26 @@ class DB:
             create_dirs=True,
         )
 
-    def create(self, item: dict) -> int:
-        """Create an item in the database.
+    def create(self, task: dict) -> int:
+        """Create a task in the database.
 
         Args:
-            item (dict): Dictionary containing the item data.
+            task (dict): Dictionary containing the task data.
 
         Returns:
-            int: The ID of the newly created item.
+            int: The ID of the newly created task.
 
         """
-        return self._db.insert(item)
+        return self._db.insert(task)
 
     def read(self, id: int):
-        """Read an item from the database.
+        """Read a task from the database.
 
         Args:
-            id (int): The ID of the item to read.
+            id (int): The ID of the task to read.
 
         Returns:
-            dict or None: The item object or None if not found.
+            dict or None: The task object or None if not found.
 
         """
         return self._db.get(doc_id=id)
@@ -51,39 +51,39 @@ class DB:
         """Read the entire database.
 
         Returns:
-            tinydb.TinyDB: All items in the database.
+            tinydb.TinyDB: All tasks in the database.
 
         """
         return self._db
 
     def update(self, id: int, mods) -> None:
-        """Update an item in the database.
+        """Update a task in the database.
 
         Args:
-            id (int): The ID of the item to update.
+            id (int): The ID of the task to update.
             mods (dict): Dictionary containing the modifications to apply.
 
         Raises:
-            KeyError: If no item with the given ID exists.
+            KeyError: If no task with the given ID exists.
 
         """
         changes = {k: v for k, v in mods.items() if v is not None}
         self._db.update(changes, doc_ids=[id])
 
     def delete(self, id: int) -> None:
-        """Delete an item from the database.
+        """Delete a task from the database.
 
         Args:
-            id (int): The ID of the item to delete.
+            id (int): The ID of the task to delete.
 
         Raises:
-            KeyError: If no item with the given ID exists.
+            KeyError: If no task with the given ID exists.
 
         """
         self._db.remove(doc_ids=[id])
 
     def delete_all(self) -> None:
-        """Delete all items in the database.
+        """Delete all tasks in the database.
 
         Returns:
             None: This function doesn't return anything.
@@ -92,10 +92,10 @@ class DB:
         self._db.truncate()
 
     def count(self) -> int:
-        """Count all items in the database.
+        """Count all tasks in the database.
 
         Returns:
-            int: The number of items in the database.
+            int: The number of tasks in the database.
 
         """
         return len(self._db)

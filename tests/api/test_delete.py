@@ -6,58 +6,58 @@
 
 import pytest
 
-from items import InvalidItemIdError, Item
+from cusy.tasks import InvalidTaskIdError, Task
 
 
 @pytest.fixture
-def three_items(items_db):
-    """Create three items."""
-    item1 = items_db.add_item(Item("Update pytest section"))
-    item2 = items_db.add_item(Item("Update cibuildwheel section"))
-    item3 = items_db.add_item(Item("Update mock tests"))
-    return (item1, item2, item3)
+def three_tasks(tasks_db):
+    """Create three tasks."""
+    task1 = tasks_db.add_task(Task("Update pytest section"))
+    task2 = tasks_db.add_task(Task("Update cibuildwheel section"))
+    task3 = tasks_db.add_task(Task("Update mock tests"))
+    return (task1, task2, task3)
 
 
-def test_delete_from_many(items_db, three_items):
-    """Testing the deletion of one item among several.
+def test_delete_from_many(tasks_db, three_tasks):
+    """Testing the deletion of one task among several.
 
-    After item2 is deleted, the number should have been reduced from three to
-    two. In addition, item1 and item3 should still be present.
+    After task2 is deleted, the number should have been reduced from three to
+    two. In addition, task1 and task3 should still be present.
     """
-    (item1, item2, item3) = three_items
-    id_to_delete = item2
-    ids_still_there = (item1, item3)
+    (task1, task2, task3) = three_tasks
+    id_to_delete = task2
+    ids_still_there = (task1, task3)
 
-    items_db.delete_item(id_to_delete)
+    tasks_db.delete_task(id_to_delete)
 
-    assert items_db.count() == 2
-    # item should not be retrievable after deletion
-    with pytest.raises(InvalidItemIdError):
-        items_db.get_item(id_to_delete)
-    # non-deleted items should still be retrievable
+    assert tasks_db.count() == 2
+    # task should not be retrievable after deletion
+    with pytest.raises(InvalidTaskIdError):
+        tasks_db.get_task(id_to_delete)
+    # non-deleted tasks should still be retrievable
     for i in ids_still_there:
         # just making sure this doesn't throw an exception
-        items_db.get_item(i)
+        tasks_db.get_task(i)
 
 
-def test_delete_last_item(items_db):
-    """Test the deletion of the last added item to an empty database.
+def test_delete_last_task(tasks_db):
+    """Test the deletion of the last added task to an empty database.
 
-    The number of items should then be 0. In addition, get_item should throw
-    an InvalidItemIdError exception.
+    The number of tasks should then be 0. In addition, get_task should throw
+    an InvalidTaskIdError exception.
     """
-    i = items_db.add_item(Item("Update pytest section"))
-    items_db.delete_item(i)
-    assert items_db.count() == 0
-    with pytest.raises(InvalidItemIdError):
-        items_db.get_item(i)
+    i = tasks_db.add_task(Task("Update pytest section"))
+    tasks_db.delete_task(i)
+    assert tasks_db.count() == 0
+    with pytest.raises(InvalidTaskIdError):
+        tasks_db.get_task(i)
 
 
-def test_delete_non_existent(items_db):
-    """Deleting a non-existent item.
+def test_delete_non_existent(tasks_db):
+    """Deleting a non-existent task.
 
-    This should throw the InvalidItemIdError exception.
+    This should throw the InvalidTaskIdError exception.
     """
     i = 42  # any number will do, db is empty
-    with pytest.raises(InvalidItemIdError):
-        items_db.delete_item(i)
+    with pytest.raises(InvalidTaskIdError):
+        tasks_db.delete_task(i)

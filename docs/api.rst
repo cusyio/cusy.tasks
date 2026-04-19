@@ -5,24 +5,24 @@
 API reference
 =============
 
-.. automodule:: items.api
+.. automodule:: cusy.tasks.api
 
-:class:`items.api.Item` class
------------------------------
+:class:`cusy.tasks.api.Task` class
+----------------------------------
 
-.. autoclass:: Item
+.. autoclass:: Task
    :members: from_dict, to_dict
 
-:class:`items.api.ItemsDB` class
---------------------------------
+:class:`cusy.tasks.api.TasksDB` class
+-------------------------------------
 
-.. autoclass:: ItemsDB
-   :members: add_item, get_item, list_items, count, update_item, start, finish,
-       delete_item, delete_all, close, path
+.. autoclass:: TasksDB
+   :members: add_task, get_task, list_tasks, count, update_task, start, finish,
+       delete_task, delete_all, close, path
 
 Exceptions
 ----------
 
-.. autoexception:: ItemsError
+.. autoexception:: TasksError
 .. autoexception:: MissingSummaryError
-.. autoexception:: InvalidItemIdError
+.. autoexception:: InvalidTaskIdError
