@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2023 Veit Schiele
 #
 # SPDX-License-Identifier: BSD-3-Clause
-
 [build-system]
 build-backend = "uv_build"
 requires = [ "uv-build>=0.10.2" ]
@@ -25,6 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: Free Threading",
 ]
 dependencies = [
   "rich",
@@ -81,6 +81,10 @@ lint.ignore = [
   "RUF003", # Ditto
   "T201",   # print is fine
 ]
+lint.per-file-ignores."docs/conf.py" = [
+  "S605", # Starting a process with a shell: seems safe, but may be changed in the future; consider rewriting without `shell`
+  "S606", # Starting a process with a partial executable path
+]
 lint.per-file-ignores."tests/*" = [
   "ARG001",  # With monkeypatch, seemingly unused arguments are used
   "PLR2004", # Numbers are sometimes fine in tests
@@ -108,16 +112,16 @@ markers = [
 ]
 
 [tool.coverage]
-paths.source = [ "src", ".tox/py*/**/site-packages" ]
-report.show_missing = true
-report.skip_covered = true
-report.exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-]
 run.branch = true
 run.parallel = true
 run.source = [ "src", "tests" ]
+paths.source = [ "src", ".tox/py*/**/site-packages" ]
+report.exclude_lines = [
+  "if __name__ == .__main__.:",
+  "no cov",
+]
+report.show_missing = true
+report.skip_covered = true
 
 [tool.tox]
 requires = [ "tox>=4" ]
