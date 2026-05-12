@@ -22,7 +22,7 @@ repos:
     - id: check-added-large-files
     - id: check-toml
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: 91de51aef61c5f2383f03da25604e3d65a8309e0 # v2.21.1
+    rev: a007bb7dd9043d022292401abc3061cb1906b4bc # v2.21.2
     hooks:
     - id: pyproject-fmt
   - repo: https://github.com/abravalheri/validate-pyproject
