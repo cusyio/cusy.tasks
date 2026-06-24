@@ -29,6 +29,11 @@ repos:
     rev: 4b2e70d08cb2ccd26d1fba73588de41c7a5d50b7 # v0.25
     hooks:
     - id: validate-pyproject
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 73c2d77a42a113aee9e4b748c24937f09557b82d # 0.11.24
+    hooks:
+    - id: uv-audit
+      files: ^(uv\.lock|pyproject\.toml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: 745be0411e3c150e246d527e531e5a221b8c3462 # v0.15.19
     hooks:
