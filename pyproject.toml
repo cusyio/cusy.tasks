@@ -74,8 +74,6 @@ lint.ignore = [
   "ANN",    # We don’t use type annotations
   "B008",   # Function call `typer.Option` in argument defaults is fine
   "COM812", # May cause conflicts when used with the formatter
-  "D203",   # It’s incompatible to D211
-  "D213",   # Ditto
   "INP001", # docs/conf.py is a Python file outside of packages
   "RUF001", # I love typographic symbols
   "RUF003", # Ditto
@@ -93,6 +91,7 @@ lint.per-file-ignores."tests/*" = [
 ]
 lint.isort.lines-after-imports = 2
 lint.isort.lines-between-types = 1
+lint.pydocstyle.convention = "google"
 
 [tool.interrogate]
 fail-under = 100
