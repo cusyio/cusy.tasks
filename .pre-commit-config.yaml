@@ -22,7 +22,7 @@ repos:
     - id: check-added-large-files
     - id: check-toml
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: f073523dfd27b01ec7997cc970a2a7b36c303460 # v2.25.0
+    rev: 0c8c15d8fe996493035be407c5cf4a288cf6bf8e # v2.25.1
     hooks:
     - id: pyproject-fmt
   - repo: https://github.com/abravalheri/validate-pyproject
@@ -30,12 +30,12 @@ repos:
     hooks:
     - id: validate-pyproject
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 73c2d77a42a113aee9e4b748c24937f09557b82d # 0.11.24
+    rev: 84ed656d5ada0b07830b74fb0fe18b3bc1029441 # 0.11.26
     hooks:
     - id: uv-audit
       files: ^(uv\.lock|pyproject\.toml)$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 745be0411e3c150e246d527e531e5a221b8c3462 # v0.15.19
+    rev: c59bba8fb259db0fec2bbb77ad8ba51ea7341b56 # v0.15.20
     hooks:
     - id: ruff-check
       args: [--fix, --exit-non-zero-on-fix]
