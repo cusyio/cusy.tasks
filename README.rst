@@ -165,10 +165,10 @@ path by setting the environment variable ``ITEMS_DB_DIR``:
 .. code-block:: console
 
    # Linux/macOS
-   $ export ITEMS_DB_DIR=/pfad/zu/meiner/datenbank
+   $ export ITEMS_DB_DIR=/path/to/database
 
    # Windows
-   C:> set ITEMS_DB_DIR=C:\pfad\zu\meiner\datenbank
+   C:> set ITEMS_DB_DIR=C:\path\to\database
 
 Project links
 =============
