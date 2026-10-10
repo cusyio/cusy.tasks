@@ -24,6 +24,7 @@ classifiers = [
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
   "Programming Language :: Python :: Free Threading",
 ]
 dependencies = [
@@ -141,70 +142,47 @@ report.skip_covered = true
 report.show_missing = true
 
 [tool.tox]
-requires = [ "tox>=4" ]
+requires = [ "tox>=4.51" ]
 env_list = [
+  "3.1{0-5}",
+  "3.1{3-5}t",
   "coverage-report",
   "docs",
   "pre-commit",
-  "py{13-14}t",
-  "py3{10-14}",
 ]
 package_env = "True"
 skip_missing_interpreters = true
+env.coverage-report.description = "Report coverage over all test runs."
+env.coverage-report.skip_install = true
+env.coverage-report.deps = [ "coverage[toml]" ]
 env.coverage-report.commands = [
   [ "coverage", "combine" ],
   [ "coverage", "report" ],
 ]
-env.coverage-report.deps = [ "coverage[toml]" ]
-env.coverage-report.description = "Report coverage over all test runs."
-env.coverage-report.skip_install = true
-env.docs-linkcheck.base_python = [ "{[tool.tox.env.docs]base_python}" ]
+env.docs.base_python_file = ".python-version"
+env.docs.deps = [ "interrogate" ]
+env.docs.dependency_groups = [ "docs" ]
+env.docs.commands = [
+  [ "sphinx-build", "-n", "-T", "-W", "-b", "html", "-d", "{envtmpdir}/doctrees", "docs", "docs/_build/html" ],
+  [ "sphinx-build", "-n", "-T", "-W", "-b", "doctest", "-d", "{envtmpdir}/doctrees", "docs", "docs/_build/html" ],
+  [ "interrogate", "--quiet", "--fail-under", "100", "src", "tests" ]
+]
+env.docs-linkcheck.base_python_file = [ "{[tool.tox.env.docs]base_python_file}" ]
+env.docs-linkcheck.dependency_groups = [ "docs" ]
 env.docs-linkcheck.commands = [
   [ "sphinx-build", "-W", "-b", "linkcheck", "-d", "{envtmpdir}/doctrees", "docs", "docs/_build/html" ]
 ]
-env.docs-linkcheck.dependency_groups = [ "docs" ]
-# Keep base_python in sync with ci.yml and .readthedocs.yaml.
-env.docs.base_python = [ "py313" ]
-env.docs.commands = [
-  [
-    "sphinx-build",
-    "-n",
-    "-T",
-    "-W",
-    "-b",
-    "html",
-    "-d",
-    "{envtmpdir}/doctrees",
-    "docs",
-    "docs/_build/html"
-  ],
-  [
-    "sphinx-build",
-    "-n",
-    "-T",
-    "-W",
-    "-b",
-    "doctest",
-    "-d",
-    "{envtmpdir}/doctrees",
-    "docs",
-    "docs/_build/html"
-  ],
-  [ "interrogate", "--quiet", "--fail-under", "100", "src", "tests" ]
-]
-env.docs.dependency_groups = [ "docs" ]
-env.docs.deps = [ "interrogate" ]
-env.pre-commit.commands = [
-  [ "pre-commit", "run", "--all-files" ],
-]
+env.pre-commit.description = "Run all pre-commit hooks."
+env.pre-commit.skip_install = true
 env.pre-commit.deps = [
   "pre-commit",
 ]
-env.pre-commit.description = "Run all pre-commit hooks."
-env.pre-commit.skip_install = true
+env.pre-commit.commands = [
+  [ "pre-commit", "run", "--all-files" ],
+]
+env_run_base.deps = [ "coverage[toml]" ]
+env_run_base.dependency_groups = [ "tests" ]
 env_run_base.commands = [
   [ "python", "--version", "--version" ],
   [ "coverage", "run", "-m", "pytest", "{posargs}" ],
 ]
-env_run_base.dependency_groups = [ "tests" ]
-env_run_base.deps = [ "coverage[toml]" ]
