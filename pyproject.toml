@@ -63,6 +63,7 @@ tests = [
 
 [tool.uv]
 exclude-newer = "P3D"  # "3 days" in RFC 3339 format
+exclude-newer-package = { virtualenv = "P0D" }
 build-backend.module-name = "cusy.tasks"
 build-backend.namespace = true
 build-backend.source-include = [ "docs/**", "tests/**", ".python-version" ]
